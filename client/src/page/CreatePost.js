@@ -65,6 +65,9 @@ export default function CreatePost() {
             textAlign: "center"
         }}
         >
+            
+            <h1 className="instagram-text">New Post</h1>
+
             <input 
             type="text" 
             placeholder="Title of the Post"
