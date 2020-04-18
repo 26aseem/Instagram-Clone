@@ -42,7 +42,7 @@ router.post('/createpost', requireLogin, (req,res)=> {
 // Get All Posts
 router.get('/allpost', requireLogin, (req, res) =>{
     Post.find()
-    .populate("postedBy", "_id username")
+    .populate("postedBy", "_id username profilePic")
     .then(posts => {
         res.json({posts})
     })
@@ -54,7 +54,7 @@ router.get('/allpost', requireLogin, (req, res) =>{
 // Get All Posts by the User
 router.get('/mypost', requireLogin, (req, res) => {
     Post.find({postedBy: req.user._id})
-    .populate("postedBy", "_id name")
+    .populate("postedBy", "_id name profilePic")
     .then(myposts => {
         return res.json({myposts})
     })
@@ -69,7 +69,7 @@ router.get('/followingpost', requireLogin, (req, res) =>{
     Post.find({postedBy:{
         $in : req.user.following
     }})
-    .populate("postedBy", "_id username")
+    .populate("postedBy", "_id username profilePic")
     .then(posts => {
         res.json({posts})
     })

@@ -130,11 +130,11 @@ export default function Home() {
                 <div key={index} className="card home-card ">
                     <h5 className="mt-2 ml-2">
                             <Link to={post.postedBy._id !== state._id ? "/profile/" + post.postedBy._id : "/profile"}> 
-                            <img 
-                    src={JSON.parse(localStorage.getItem("user")).profilePic} 
-                    style={{width:"160px", height:"160px",borderRadius:"80px"}}
-                    alt="Profile"
-                    />
+                                <img 
+                                src={post.postedBy.profilePic} 
+                                style={{width:"50px", height:"50px",borderRadius:"30px"}}
+                                alt="" className="mr-4"
+                                />
 
                                 @{post.postedBy.username} 
                             </Link>
