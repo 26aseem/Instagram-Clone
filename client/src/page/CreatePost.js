@@ -8,8 +8,10 @@ export default function CreatePost() {
     const [title, setTitle] = useState("")
     const [body ,setBody] = useState("")
     const [image, setImage] = useState("")
+    const [loading,setLoading] = useState(false)
     
     const postDetails = () =>{
+        setLoading(true)
         const data = new FormData()
         data.append("file", image)
         data.append("upload_preset","instagram-clone")
@@ -19,7 +21,6 @@ export default function CreatePost() {
             body: data
         }).then(res => res.json())
         .then(data =>{
-
             fetch("http://localhost:8000/createpost",{
             method: "POST",
             headers: {
@@ -33,6 +34,7 @@ export default function CreatePost() {
             })
         }).then(res=>res.json())
         .then(data => {
+            setLoading(false)
             if(data.error){
                 M.toast({html: data.error, classes:"#c62828 red darken-3 font-weight-bold "})
             }else{
@@ -53,11 +55,61 @@ export default function CreatePost() {
         
     };
     
+    const loadingMessage = () => (
+        loading && (
+            
+    <div class="preloader-wrapper big active">
+    <div class="spinner-layer spinner-blue">
+      <div class="circle-clipper left">
+        <div class="circle"></div>
+      </div><div class="gap-patch">
+        <div class="circle"></div>
+      </div><div class="circle-clipper right">
+        <div class="circle"></div>
+      </div>
+    </div>
+
+    <div class="spinner-layer spinner-red">
+      <div class="circle-clipper left">
+        <div class="circle"></div>
+      </div><div class="gap-patch">
+        <div class="circle"></div>
+      </div><div class="circle-clipper right">
+        <div class="circle"></div>
+      </div>
+    </div>
+
+    <div class="spinner-layer spinner-yellow">
+      <div class="circle-clipper left">
+        <div class="circle"></div>
+      </div><div class="gap-patch">
+        <div class="circle"></div>
+      </div><div class="circle-clipper right">
+        <div class="circle"></div>
+      </div>
+    </div>
+
+    <div class="spinner-layer spinner-green">
+      <div class="circle-clipper left">
+        <div class="circle"></div>
+      </div><div class="gap-patch">
+        <div class="circle"></div>
+      </div><div class="circle-clipper right">
+        <div class="circle"></div>
+      </div>
+    </div>
+  </div>
+      
+        )
+     )
+
+
 
 
     return (
+    <div className="container ">
         <div 
-        className="card input-field"
+        className="card input-field "
         style={{
             margin: "10px auto",
             maxWidth: "480px",
@@ -102,5 +154,10 @@ export default function CreatePost() {
                 Create Post
             </button>
         </div>
+
+        <center className="mt-5">
+            {loadingMessage()}
+        </center>
+    </div>
     )
 }

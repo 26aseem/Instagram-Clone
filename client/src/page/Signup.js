@@ -10,6 +10,7 @@ export default function Signup() {
     const [password, setPassword] = useState("")
     const [image, setImage] = useState("")
     const [url,setUrl] = useState(undefined)
+    const [loading,setLoading] = useState(false)
     useEffect(() =>{
         if(url){
             uploadFields()
@@ -39,6 +40,7 @@ export default function Signup() {
             return
         }
 
+        setLoading(true)
         fetch("http://localhost:8000/signup",{
             method:"post",
             headers:{
@@ -56,6 +58,7 @@ export default function Signup() {
                 return response.json();
                 })
         .then(data => {
+            setLoading(false)
             if(data.error){
                 console.log(data.error)
                 M.toast({html: data.error, classes:"#c62828 red darken-3 font-weight-bold "})
@@ -81,9 +84,56 @@ export default function Signup() {
         
     };
 
+    const loadingMessage = () => (
+        loading && (
+            
+    <div class="preloader-wrapper big active">
+    <div class="spinner-layer spinner-blue">
+      <div class="circle-clipper left">
+        <div class="circle"></div>
+      </div><div class="gap-patch">
+        <div class="circle"></div>
+      </div><div class="circle-clipper right">
+        <div class="circle"></div>
+      </div>
+    </div>
 
+    <div class="spinner-layer spinner-red">
+      <div class="circle-clipper left">
+        <div class="circle"></div>
+      </div><div class="gap-patch">
+        <div class="circle"></div>
+      </div><div class="circle-clipper right">
+        <div class="circle"></div>
+      </div>
+    </div>
+
+    <div class="spinner-layer spinner-yellow">
+      <div class="circle-clipper left">
+        <div class="circle"></div>
+      </div><div class="gap-patch">
+        <div class="circle"></div>
+      </div><div class="circle-clipper right">
+        <div class="circle"></div>
+      </div>
+    </div>
+
+    <div class="spinner-layer spinner-green">
+      <div class="circle-clipper left">
+        <div class="circle"></div>
+      </div><div class="gap-patch">
+        <div class="circle"></div>
+      </div><div class="circle-clipper right">
+        <div class="circle"></div>
+      </div>
+    </div>
+  </div>
+      
+        )
+     )
 
     return (
+    <div className="container">
       <div className="mycard">
             <div className="card auth-card input-field">
                 <h2 className="instagram-text">Instagram</h2>
@@ -136,7 +186,10 @@ export default function Signup() {
  </div>
 </div>
 
-
+    <center>
+        {loadingMessage()}
+    </center>
+</div>
 
 
     )

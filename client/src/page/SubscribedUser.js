@@ -133,7 +133,7 @@ export default function Home() {
                             <img 
                                 src={post.postedBy.profilePic} 
                                 style={{width:"50px", height:"50px",borderRadius:"30px"}}
-                                alt="" className="mr-4"
+                                alt="" className="mr-4 ml-2" title={post.postedBy.username}
                             />
                                 @{post.postedBy.username} 
                             </Link>
@@ -147,7 +147,7 @@ export default function Home() {
                         ""
                         } </h5>
                     
-                    <div className="card image">
+                    <div className="card image mx-3" style={{height:"350px"}}>
                         <img 
                         src={post.photo} 
                         alt="post"

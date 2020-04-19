@@ -127,13 +127,13 @@ export default function Home() {
     <div className="home">
       {  data.map((post, index) =>{
             return(
-                <div key={index} className="card home-card ">
-                    <h5 className="mt-2 ml-2">
+                <div key={index} className="card home-card">
+                    <h5 className="mt-3 ml-2">
                             <Link to={post.postedBy._id !== state._id ? "/profile/" + post.postedBy._id : "/profile"}> 
                                 <img 
                                 src={post.postedBy.profilePic} 
                                 style={{width:"50px", height:"50px",borderRadius:"30px"}}
-                                alt="" className="mr-4"
+                                alt="" className="mr-4 ml-2" title={post.postedBy.username}
                                 />
 
                                 @{post.postedBy.username} 
@@ -148,10 +148,11 @@ export default function Home() {
                         ""
                         } </h5>
                     
-                    <div className="card image">
+                    <div className="card image mx-3" style={{height:"350px"}}>
                         <img 
                         src={post.photo} 
-                        alt="post"
+                        alt="Post"
+                        title={post.title}
                         />
                     </div>
                     <div className="card-content mt-0 pt-0">
@@ -173,7 +174,7 @@ export default function Home() {
                         {
                             post.comments.map((record,index) => {
                                 return(
-                                    <h6 key={index}>
+                                    <h6 key={index} className="mt-2">
                                         <span className="font-weight-bold">@{record.postedByUser} </span>
                                         {record.text}    
                                     </h6>
@@ -193,6 +194,7 @@ export default function Home() {
             )
             })
         }
+
     </div>        
         
         

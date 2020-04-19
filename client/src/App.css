@@ -50,3 +50,14 @@ a {
 .propic{
   border:0 !important;
 }
+
+.searchFriend{
+  background-color: #fff !important;
+  border:0 solid black !important;
+    
+}
+
+
+.searchFriend:focus {  border-bottom: 1px solid black !important;
+  box-shadow: 0 !important;
+}

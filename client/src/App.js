@@ -35,6 +35,7 @@ const Routing = () =>{
       <Route path="/createpost"> <CreatePost/> </Route>
       <Route path="/profile/:userId"> <UserProfile/> </Route>
       <Route path="/friendPosts"> <SubscribedUser/> </Route>
+      
   </Switch>
   )
 }

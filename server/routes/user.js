@@ -89,4 +89,24 @@ router.put('/updatepic',requireLogin,(req,res)=>{
         )
 })
 
+//Find Users
+router.post('/finduser',requireLogin,(req,res)=>{
+    User.find({
+        $text: { $search: req.body.info }
+    })
+    .select("-password")
+    .then(result=>{
+        if(result.error){
+            return res.status(422).json({
+                error:result.error
+            })
+        }
+        
+        res.json(result)
+    })
+    .catch(err=>{
+        console.log(err)
+    })
+})
+
 module.exports = router
