@@ -2,15 +2,16 @@ import React, {useState,useEffect,useContext} from 'react'
 import {profileLogo} from "../images/profile_logo.png"
 import {UserContext} from "../App"
 import M from "materialize-css"
+import {API} from "../backend"
 
 export default function Profile() {
     const [post, setPost] = useState([])
     const {state, dispatch} = useContext(UserContext)
     const [image, setImage] = useState("")
        
-
+    
     useEffect(() => {
-        fetch("http://localhost:8000/mypost",{
+        fetch(`${API}/mypost`,{
             method: "GET",
             headers:{
                 "Authorization": "Bearer " + localStorage.getItem("jwt")
@@ -33,7 +34,7 @@ export default function Profile() {
             }).then(res => res.json())
             .then(data =>{
                 document.getElementById("updateProPic").textContent = "Profile Picture Updated"
-                fetch("http://localhost:8000/updatepic",{
+                fetch(`${API}/updatepic`,{
                     method:"PUT",
                     headers:{
                         "Content-Type":"application/json",
@@ -64,6 +65,7 @@ export default function Profile() {
 
 
     return (
+    
         <div className="container-fluid mt-5">
             <div className="row" style={{borderBottom:"1px solid grey"}}>
                 <div className="col-sm-3 offset-sm-1 offset-3 mb-sm-4">
@@ -91,7 +93,7 @@ export default function Profile() {
 
                 <div className="col-sm-7 offset-sm-1 offset-lg-0 mt-4 offset-2">
                     <h1> {JSON.parse(localStorage.getItem("user")).name} </h1>
-                    <h3 style={{color:"grey"}}> @{JSON.parse(localStorage.getItem("user")).username} </h3>                         
+                    <h3 style={{color:"grey"}} className="ml-5"> @{JSON.parse(localStorage.getItem("user")).username} </h3>                         
                     <div className="row mt-3">
                         <h6 className="mr-4"> {post.length} posts</h6>
                         <h6 className="mr-4"> {JSON.parse(localStorage.getItem("user")).followers ? JSON.parse(localStorage.getItem("user")).followers.length : "0"} followers</h6>
@@ -104,11 +106,12 @@ export default function Profile() {
                 {
                     post.map((p, index) => {
                         return(
-                        <img key={index} className="col-4 my-auto " src={p.photo} alt={p.title} title={p.title}/>
+                       <img key={index} className="col-4 mb-4"  src={p.photo} alt={p.title} title={p.title}/>
                         )
                     })
                 }               
             </div>
         </div>
+
     )
 }

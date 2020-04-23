@@ -41,8 +41,10 @@ router.post('/createpost', requireLogin, (req,res)=> {
 
 // Get All Posts
 router.get('/allpost', requireLogin, (req, res) =>{
+    let sortBy = req.query.sortBy ? req.query.sortBy : "createdAt";
     Post.find()
     .populate("postedBy", "_id username profilePic")
+    .sort([[sortBy, "desc"]])
     .then(posts => {
         res.json({posts})
     })
@@ -53,8 +55,10 @@ router.get('/allpost', requireLogin, (req, res) =>{
 
 // Get All Posts by the User
 router.get('/mypost', requireLogin, (req, res) => {
+    let sortBy = req.query.sortBy ? req.query.sortBy : "createdAt";
     Post.find({postedBy: req.user._id})
     .populate("postedBy", "_id name profilePic")
+    .sort([[sortBy, "desc"]])
     .then(myposts => {
         return res.json({myposts})
     })
@@ -66,10 +70,12 @@ router.get('/mypost', requireLogin, (req, res) => {
 
 // Post by following
 router.get('/followingpost', requireLogin, (req, res) =>{
+    let sortBy = req.query.sortBy ? req.query.sortBy : "createdAt";
     Post.find({postedBy:{
         $in : req.user.following
     }})
     .populate("postedBy", "_id username profilePic")
+    .sort([[sortBy, "desc"]])
     .then(posts => {
         res.json({posts})
     })

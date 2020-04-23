@@ -1,17 +1,21 @@
 import React, {useState, useEffect,useContext} from 'react'
-import {Link} from "react-router-dom"
+import {Link,useHistory} from "react-router-dom"
 import { FaHeart} from "react-icons/fa";
 import { AiFillLike, AiFillDislike } from "react-icons/ai";
 import {UserContext} from "../App"
 import M from "materialize-css"
 import { MdDeleteForever } from "react-icons/md"
+import { FaShare } from "react-icons/fa"
+import { API } from '../backend';
+
 
 export default function Home() {
+    const history = useHistory();
     const [data, setData] = useState([])
     const {state, dispatch} = useContext(UserContext)
     
     useEffect(()=>{
-        fetch("http://localhost:8000/followingpost", {
+        fetch(`${API}/followingpost`, {
             method: "GET",
             headers: {
                 "Authorization": "Bearer "+ localStorage.getItem("jwt")
@@ -24,7 +28,7 @@ export default function Home() {
 
     // Like Post
     const likePost = (id) => {
-        fetch("http://localhost:8000/like", {
+        fetch(`${API}/like`, {
             method: "PUT",  
             headers: {
                 "Authorization": "Bearer " + localStorage.getItem("jwt"),
@@ -50,7 +54,7 @@ export default function Home() {
     };
 
     const unlikePost = (id) => {
-        fetch("http://localhost:8000/unlike", {
+        fetch(`${API}/unlike`, {
             method: "PUT",  
             headers: {
                 "Authorization": "Bearer " + localStorage.getItem("jwt"),
@@ -77,7 +81,7 @@ export default function Home() {
 
     // Comment
     const commentPost = (text,id) => {
-        fetch("http://localhost:8000/comment", {
+        fetch(`${API}/comment`, {
             method: "PUT",  
             headers: {
                 "Authorization": "Bearer " + localStorage.getItem("jwt"),
@@ -105,7 +109,7 @@ export default function Home() {
 
     // Delete Post
     const deletepost = (postId) => {
-        fetch(`http://localhost:8000/deletepost/${postId}`,{
+        fetch(`${API}/deletepost/${postId}`,{
         method: "DELETE",
         headers:{
             "Authorization": "Bearer " + localStorage.getItem("jwt")
@@ -123,18 +127,47 @@ export default function Home() {
         })
     };
 
+
+    // Share Post
+    const sharePost = (title,body,url) => {
+        fetch(`${API}/createpost`,{
+            method: "POST",
+            headers: {
+                "Content-Type":"application/json",
+                "Authorization": "Bearer " + localStorage.getItem("jwt")
+            },
+            body: JSON.stringify({
+                title:title,
+                body:body,
+                url
+            })
+        }).then(res=>res.json())
+        .then(data => {
+            if(data.error){
+                M.toast({html: "Post could not be shared", classes:"#c62828 red darken-3 font-weight-bold "})
+            }else{
+            M.toast({html: 'Post shared Successfully', classes:"#00c853 green accent-4 font-weight-bold"})
+        }
+        })
+        .catch(err => console.log(err));
+        
+    };
+
+
+
     return (
     <div className="home">
       {  data.map((post, index) =>{
             return(
-                <div key={index} className="card home-card ">
-                    <h5 className="mt-2 ml-2">
+                <div key={index} className="card home-card">
+                    <h5 className="mt-3 ml-2">
                             <Link to={post.postedBy._id !== state._id ? "/profile/" + post.postedBy._id : "/profile"}> 
-                            <img 
+                                <img 
                                 src={post.postedBy.profilePic} 
                                 style={{width:"50px", height:"50px",borderRadius:"30px"}}
                                 alt="" className="mr-4 ml-2" title={post.postedBy.username}
-                            />
+                                />
+
                                 @{post.postedBy.username} 
                             </Link>
                         {(post.postedBy._id===state._id)?
@@ -148,10 +181,13 @@ export default function Home() {
                         } </h5>
                     
                     <div className="card image mx-3" style={{height:"350px"}}>
+                    
                         <img 
                         src={post.photo} 
-                        alt="post"
+                        alt="Post"
+                        title={post.title}
                         />
+                    
                     </div>
                     <div className="card-content mt-0 pt-0">
 
@@ -165,6 +201,8 @@ export default function Home() {
                         <AiFillLike style={{fontSize:"1.5em"}} className="mr-2 mb-3" onClick={()=>likePost(post._id)}/>
                         }
 
+                        <FaShare style={{fontSize:"1.5em"}} className="mr-1 mb-3 right" onClick={()=>sharePost(post.title,post.body,post.photo)}/>
+
                         <h6> {post.likes.length} {post.likes.length>1 ?"Likes":"Like"} </h6>
                         <h6 className="font-weight-bold"> {post.title} </h6>
                         <p className="font-weight-bold">{post.body}</p>
@@ -172,7 +210,7 @@ export default function Home() {
                         {
                             post.comments.map((record,index) => {
                                 return(
-                                    <h6 key={index}>
+                                    <h6 key={index} className="mt-2">
                                         <span className="font-weight-bold">@{record.postedByUser} </span>
                                         {record.text}    
                                     </h6>
@@ -192,6 +230,7 @@ export default function Home() {
             )
             })
         }
+
     </div>        
         
         

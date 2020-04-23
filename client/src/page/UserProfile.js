@@ -2,6 +2,7 @@ import React, {useState,useEffect,useContext} from 'react'
 import {profileLogo} from "../images/profile_logo.png"
 import {useParams} from "react-router-dom"
 import {UserContext} from "../App"
+import {API} from "../backend"
 
 const UserProfile = () => {
     const [userProfile, setProfile] = useState(null)
@@ -13,7 +14,7 @@ const UserProfile = () => {
     
     
     useEffect(() => {
-        fetch(`http://localhost:8000/user/${userId}`,{
+        fetch(`${API}/user/${userId}`,{
             method: "GET",
             headers:{
                 "Authorization": "Bearer " + localStorage.getItem("jwt")
@@ -28,7 +29,7 @@ const UserProfile = () => {
     }, [])
 
     const followUser = () =>{
-        fetch('http://localhost:8000/follow',{
+        fetch(`${API}/follow`,{
             method:"PUT",
             headers: {
                 "Content-Type":"application/json",
@@ -58,7 +59,7 @@ const UserProfile = () => {
     }
 
     const unfollowUser = () =>{
-        fetch('http://localhost:8000/unfollow',{
+        fetch(`${API}/unfollow`,{
             method:"PUT",
             headers: {
                 "Content-Type":"application/json",
@@ -133,7 +134,7 @@ const UserProfile = () => {
                 {
                     userProfile.posts.map((p, index) => {
                         return(
-                        <img key={index} className="col-4 my-auto " src={p.photo} alt={p.title} title={p.title}/>
+                        <img key={index} className="col-4 mb-4" src={p.photo} alt={p.title} title={p.title}/>
                         )
                     })
                 }               

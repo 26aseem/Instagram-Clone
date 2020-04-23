@@ -1,6 +1,7 @@
 import React, {useState, useEffect} from 'react'
 import {Link,useHistory} from "react-router-dom"
 import M from 'materialize-css'
+import {API} from "../backend"
 
 export default function Signup() {
     const history = useHistory()
@@ -41,7 +42,7 @@ export default function Signup() {
         }
 
         setLoading(true)
-        fetch("http://localhost:8000/signup",{
+        fetch(`${API}/signup`,{
             method:"post",
             headers:{
                 "Content-Type":"application/json"

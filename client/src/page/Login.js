@@ -3,8 +3,10 @@ import {Link, useHistory} from "react-router-dom"
 import {UserContext} from "../App" 
 import {FaUserCircle} from "react-icons/fa";
 import M from "materialize-css"
+import {API} from "../backend"
 
 export default function Login() {
+  
     const {state,dispatch} = useContext(UserContext)
     const history = useHistory()
     const [username, setUsername] = useState("")
@@ -13,7 +15,7 @@ export default function Login() {
 
     const PostData = () =>{
         setLoading(true)
-        fetch("http://localhost:8000/signin",{
+        fetch(`${API}/signin`,{
             method:"post",
             headers:{
                 "Content-Type":"application/json"
@@ -119,6 +121,11 @@ export default function Login() {
                 Don't have an account? &nbsp; 
                 <Link to="/signup"><span className="blue-text text-darken-2">Sign up</span> </Link>
             </h6>
+
+            <h6 className="mt-3">
+                <Link to="/resetpassword"><span className="text-darken-2" style={{color:"#3b5998"}}>Forgot Password?</span> </Link>
+            </h6>
+
             </div>
         </div>
         <center>

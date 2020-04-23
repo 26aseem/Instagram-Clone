@@ -1,7 +1,7 @@
 import React, {useState,useEffect} from 'react'
 import M from "materialize-css"
 import {useHistory} from "react-router-dom"
-
+import {API} from "../backend"
 
 export default function CreatePost() {
     const history = useHistory()
@@ -21,7 +21,7 @@ export default function CreatePost() {
             body: data
         }).then(res => res.json())
         .then(data =>{
-            fetch("http://localhost:8000/createpost",{
+            fetch(`${API}/createpost`,{
             method: "POST",
             headers: {
                 "Content-Type":"application/json",

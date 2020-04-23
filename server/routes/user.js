@@ -89,24 +89,28 @@ router.put('/updatepic',requireLogin,(req,res)=>{
         )
 })
 
+
 //Find Users
-router.post('/finduser',requireLogin,(req,res)=>{
+router.post('/searchusers',requireLogin,(req,res)=>{
+    let userPattern = new RegExp('^'+req.body.info)
     User.find({
-        $text: { $search: req.body.info }
+        name:{$regex:userPattern}
     })
-    .select("-password")
-    .then(result=>{
-        if(result.error){
+    .select("_id name username profilePic")
+     .then(user=>{
+        if(user.error){
             return res.status(422).json({
-                error:result.error
+                error:user.error
             })
         }
         
-        res.json(result)
+        res.json({user})
     })
     .catch(err=>{
         console.log(err)
     })
 })
+
+
 
 module.exports = router

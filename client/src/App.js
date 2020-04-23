@@ -10,7 +10,10 @@ import CreatePost from './page/CreatePost';
 import {reducer, initialState} from "./reducers/userReducer"
 import UserProfile from './page/UserProfile';
 import SubscribedUser from './page/SubscribedUser';
+import Reset from './page/Reset';
+import NewPassword from './page/NewPassword';
 
+require('dotenv').config();
 
 export const UserContext = createContext()
 
@@ -23,7 +26,10 @@ const Routing = () =>{
       dispatch({type:"USER",payload:user})
       history.push('/')
     } else{
-      history.push('/login')
+      if(!history.location.pathname.startsWith('/reset'))
+      { 
+        history.push('/login')
+      }
     }
   }, [])
   return(
@@ -33,8 +39,10 @@ const Routing = () =>{
       <Route path="/login"> <Login/> </Route>
       <Route path="/signup"> <Signup/> </Route>
       <Route path="/createpost"> <CreatePost/> </Route>
-      <Route path="/profile/:userId"> <UserProfile/> </Route>
+      <Route exact path="/profile/:userId"> <UserProfile/> </Route>
       <Route path="/friendPosts"> <SubscribedUser/> </Route>
+      <Route exact path="/resetpassword"><Reset/></Route>
+      <Route path="/reset/:token"><NewPassword/></Route>
       
   </Switch>
   )

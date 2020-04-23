@@ -61,3 +61,7 @@ a {
 .searchFriend:focus {  border-bottom: 1px solid black !important;
   box-shadow: 0 !important;
 }
+
+.collection-item {
+  width: 100% !important;
+}

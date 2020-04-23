@@ -1,4 +1,4 @@
-import React, {Fragement,useContext,useState} from 'react'
+import React, {Fragement,useContext,useState,useRef,useEffect} from 'react'
 import {Link,useHistory} from 'react-router-dom'
 import {UserContext} from "../App"
 import { Fragment } from 'react'
@@ -6,21 +6,30 @@ import M from "materialize-css"
 import { GiHamburgerMenu } from "react-icons/gi";
 import { MdSearch,MdClose } from "react-icons/md"
 
+
 export default function Navbar() {
+
+    const searchModal = useRef(null)
 
     document.addEventListener('DOMContentLoaded', function() {
         var elems = document.querySelectorAll('.sidenav');
         var instances = M.Sidenav.init(elems);
       });
 
-      
-
     const history = useHistory()
     const {state,dispatch} = useContext(UserContext)
     const [info,setInfo] = useState(undefined)
+    const [search, setSearch] = useState("")
+    const [userDetails,setUserDetails] = useState([])
+
+    useEffect(() =>{
+        M.Modal.init(searchModal.current)
+
+    },[])
 
     const findFriend = (text) => {
-        fetch("http://localhost:8000/finduser",{
+        setSearch(text)
+        fetch("http://localhost:8000/searchusers",{
             method: "POST",
             headers:{
                 "Content-Type":"application/json",
@@ -31,8 +40,7 @@ export default function Navbar() {
             })
         }).then(res=>res.json())
         .then(result=>{
-            console.log(result)
-            
+            setUserDetails(result.user)   
         })
         .catch(err=>{
             console.log(err)
@@ -43,19 +51,8 @@ export default function Navbar() {
         if(state){
             return[
                 <Fragment>
-                <li className="ml-3 ml-m-0"> 
-                    <form onSubmit={(event)=>{
-                            event.preventDefault()
-                            findFriend(event.target[0].value)
-                            }}>
-                        
-                        <div class="input-field" >
-                            <input id="search" type="search" placeholder="Search Your Friends..."/>
-                            <label class="label-icon" for="search"><MdSearch style={{fontSize:"20px",color:"black"}}/></label>
-                        
-                        </div>
-
-                    </form>
+                <li className="mr-4"> 
+                    <MdSearch style={{fontSize:"20px",color:"black"}} data-target="modal1" className="modal-trigger"/>
                 </li>
                 <li><Link to="/" className="sidenav-close">Home</Link></li>
                 <li><Link to="/profile" className="sidenav-close">Profile</Link></li>
@@ -88,6 +85,7 @@ export default function Navbar() {
         }
     }
 
+
     
     return (
     <nav>
@@ -97,11 +95,42 @@ export default function Navbar() {
                 {renderList()}
             </ul>
             
-            <ul class="sidenav" id="slide-out">
+            <ul className="sidenav" id="slide-out">
                 {renderList()}
             </ul>
             <a href="#" data-target="slide-out" className="sidenav-trigger right"><GiHamburgerMenu style={{fontSize:"20px"}} className="mr-3"/></a>
         </div>
+
+        <div id="modal1" className="modal container" ref={searchModal}>
+            <div className="modal-content black-text input-field my-3" style={{maxHeight:"380px",minHeight:"300px",height:"auto"}}>
+                <input type="text"
+                    placeholder="Search Your Friends..."
+                    value={search}
+                    onChange={(event) => findFriend(event.target.value)}
+                    />
+                <div className="collection">
+                   {userDetails.map(item=>{
+                       return(
+                        <Link to={item._id === JSON.parse(localStorage.getItem("user"))._id ? "/profile" : "/profile/"+item._id} onClick={()=>{
+                            M.Modal.getInstance(searchModal.current).close()
+                            setSearch("")
+                            setUserDetails([])
+                        }}><h3 className="collection-item">{item.name}</h3></Link>
+                       )
+                   })}
+                    
+                    
+    
+                </div>
+                
+            </div>
+            <div className="modal-footer">
+                <button className="modal-close btn btn-info"
+                    onClick={()=>setSearch("")}
+                >Close</button>
+            </div>
+        </div>
+
     </nav>
         
     )
