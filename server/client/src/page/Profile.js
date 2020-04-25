@@ -108,7 +108,7 @@ export default function Profile() {
                 {
                     post.map((p, index) => {
                         return(
-                       <img key={index} className="col-4 mb-4"  src={p.photo} alt={p.title} title={p.title}/>
+                       <img key={index} className="col-6 mb-4 col-lg-4"  src={p.photo} alt={p.title} title={p.title} style={{}}/>
                         )
                     })
                 }               

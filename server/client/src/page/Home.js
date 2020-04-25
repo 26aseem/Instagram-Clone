@@ -47,8 +47,6 @@ export default function Home() {
                 }
             })
             setData(newData)
-            history.push('/profile') //To cause fast reload
-            history.push('/')
         })
         .catch(err => {
             console.log(err)
@@ -75,8 +73,6 @@ export default function Home() {
                 }
             })
             setData(newData)
-            history.push('/profile') //To cause fast reload
-            history.push('/')
         })
         .catch(err => {
             console.log(err)
@@ -106,8 +102,6 @@ export default function Home() {
                })
             setData(newData)
             
-            history.push('/profile')
-            history.push('/')
         })
         .catch(err => {
             console.log(err)
@@ -156,9 +150,9 @@ export default function Home() {
                 var newData = data
                 newData.push(result.post)
                 setData(newData)
-                M.toast({html: 'Post shared Successfully', classes:"#00c853 green accent-4 font-weight-bold"})
-                history.push('/profile') //To cause fast reload
                 history.push('/')
+                M.toast({html: 'Post shared Successfully', classes:"#00c853 green accent-4 font-weight-bold"})
+                
         }
         })
         .catch(err => console.log(err));
