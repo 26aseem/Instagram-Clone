@@ -5,6 +5,8 @@ import { Fragment } from 'react'
 import M from "materialize-css"
 import { GiHamburgerMenu } from "react-icons/gi";
 import { MdSearch,MdClose } from "react-icons/md"
+import { API } from '../backend'
+
 
 
 export default function Navbar() {
@@ -29,7 +31,7 @@ export default function Navbar() {
 
     const findFriend = (text) => {
         setSearch(text)
-        fetch("http://localhost:8000/searchusers",{
+        fetch(`${API}/searchusers`,{
             method: "POST",
             headers:{
                 "Content-Type":"application/json",
