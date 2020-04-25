@@ -11,6 +11,7 @@ import {API} from "../backend"
 export default function Home() {
     const history = useHistory();
     const [data, setData] = useState([])
+    const [comt,setComt] = useState("")
     const {state, dispatch} = useContext(UserContext)
     
     useEffect(()=>{
@@ -104,6 +105,9 @@ export default function Home() {
                 }
                })
             setData(newData)
+            
+            history.push('/profile')
+            history.push('/')
         })
         .catch(err => {
             console.log(err)
@@ -153,6 +157,7 @@ export default function Home() {
                 newData.push(result.post)
                 setData(newData)
                 M.toast({html: 'Post shared Successfully', classes:"#00c853 green accent-4 font-weight-bold"})
+                history.push('/profile') //To cause fast reload
                 history.push('/')
         }
         })
@@ -238,8 +243,12 @@ export default function Home() {
                         <form onSubmit={(event)=>{
                             event.preventDefault()
                             commentPost(event.target[0].value, post._id)
+                            setComt("")
                             }}>
-                        <input type="text" placeholder="Add a Comment"/>
+                        <input type="text" placeholder="Add a Comment"
+                            value={comt}
+                            onChange={(event) => setComt(event.target.value)}
+                        />
                         </form>
                     </div>
                 </div>
