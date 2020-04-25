@@ -218,8 +218,8 @@ export default function Home() {
                         {
                             post.comments.map((record,index) => {
                                 return(
-                                    <h6 key={index} className="mt-2">
-                                        <span className="font-weight-bold">@{record.postedByUser} </span>
+                                    <h6 key={index} className="mt-2 text-success">
+                                        <span className="font-weight-bold text-primary">@{record.postedByUser} </span>
                                         {record.text}    
                                     </h6>
                                 )
