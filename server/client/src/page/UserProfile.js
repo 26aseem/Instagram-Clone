@@ -107,7 +107,7 @@ const UserProfile = () => {
 
                 <div className="col-sm-7 offset-sm-1 offset-lg-0 mt-4 offset-2">
                     <h1> {userProfile.user.name} </h1>
-                    <h2 style={{color:"grey"}} className="ml-5"> @{userProfile.user.username} </h2>                    
+                    <h2 style={{color:"grey"}} className={userProfile.user.name.length >6 ? "ml-5" : ""}> @{userProfile.user.username} </h2>                    
                     <div className="row mt-3">
                         <h6 className="mr-4"> {userProfile.posts.length} posts</h6>
                         <h6 className="mr-4"> {userProfile.user.followers.length} followers</h6>

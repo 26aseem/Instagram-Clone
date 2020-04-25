@@ -93,7 +93,9 @@ export default function Profile() {
 
                 <div className="col-sm-7 offset-sm-1 offset-lg-0 mt-4 offset-2">
                     <h1> {JSON.parse(localStorage.getItem("user")).name} </h1>
-                    <h3 style={{color:"grey"}} className="ml-5"> @{JSON.parse(localStorage.getItem("user")).username} </h3>                         
+                    <h3 style={{color:"grey"}} className={JSON.parse(localStorage.getItem("user")).name.length >6 ? "ml-5" : ""}>
+                         @{JSON.parse(localStorage.getItem("user")).username}
+                     </h3>                         
                     <div className="row mt-3">
                         <h6 className="mr-4"> {post.length} posts</h6>
                         <h6 className="mr-4"> {JSON.parse(localStorage.getItem("user")).followers ? JSON.parse(localStorage.getItem("user")).followers.length : "0"} followers</h6>
