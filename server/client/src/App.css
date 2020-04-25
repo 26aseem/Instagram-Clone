@@ -65,3 +65,9 @@ a {
 .collection-item {
   width: 100% !important;
 }
+
+.collection-item:hover{
+  background-color: #5cb85c  ;
+  color:white;
+  
+}

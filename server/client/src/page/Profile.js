@@ -76,7 +76,7 @@ export default function Profile() {
                     />
 
 
-                    <div className="file-field input-field">
+                    <div className="file-field input-field ml-0">
                         <div className="btn btn-success pt-0">
                             <span id="updateProPic">Update Profile Picture</span>
                             <input 

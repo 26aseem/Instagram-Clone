@@ -110,16 +110,29 @@ export default function Navbar() {
                     value={search}
                     onChange={(event) => findFriend(event.target.value)}
                     />
-                <div className="collection">
+                <div className="collection" style={{overflowY: "scroll",minHeight: "230px"}} >
                    {userDetails.map(item=>{
+                       
                        return(
                         <Link to={item._id === JSON.parse(localStorage.getItem("user"))._id ? "/profile" : "/profile/"+item._id} onClick={()=>{
                             M.Modal.getInstance(searchModal.current).close()
                             setSearch("")
                             setUserDetails([])
-                        }}><h3 className="collection-item">{item.name}</h3></Link>
+                        }}>
+                            <div className="collection-item">
+                            <img 
+                                src={item.profilePic} 
+                                style={{width:"50px", height:"50px",borderRadius:"30px"}}
+                                className="mr-4 ml-2" title={item.username}
+                                alt={item.username}
+                                />
+                                {item.name}
+                            
+                             </div>                                       
+                        </Link>
                        )
                    })}
+                   
                     
                     
     
