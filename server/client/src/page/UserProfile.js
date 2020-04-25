@@ -135,7 +135,7 @@ const UserProfile = () => {
                 {
                     userProfile.posts.map((p, index) => {
                         return(
-                        <img key={index} className="col-6 mb-4 col-lg-4" src={p.photo} alt={p.title} title={p.title}/>
+                        <img key={index} className="col-6 mb-4 col-lg-4" src={p.photo} alt={p.title} title={p.title} style={{minHeight:"200px"}}/>
                         )
                     })
                 }               
