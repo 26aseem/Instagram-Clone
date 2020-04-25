@@ -54,7 +54,7 @@ export default function Navbar() {
             return[
                 <Fragment>
                 <li className="mr-4"> 
-                    <MdSearch style={{fontSize:"20px",color:"black"}} data-target="modal1" className="modal-trigger ml-4 "/>
+                    <MdSearch style={{fontSize:"20px",color:"black"}} data-target="modal1" className="modal-trigger ml-4 sidenav-close "/>
                 </li>
                 <li><Link to="/" className="sidenav-close">Home</Link></li>
                 <li><Link to="/profile" className="sidenav-close">Profile</Link></li>

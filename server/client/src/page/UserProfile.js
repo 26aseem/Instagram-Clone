@@ -14,6 +14,7 @@ const UserProfile = () => {
     
     
     useEffect(() => {
+        
         fetch(`${API}/user/${userId}`,{
             method: "GET",
             headers:{

@@ -46,6 +46,8 @@ export default function Home() {
                 }
             })
             setData(newData)
+            history.push('/profile') //To cause fast reload
+            history.push('/')
         })
         .catch(err => {
             console.log(err)
@@ -72,6 +74,8 @@ export default function Home() {
                 }
             })
             setData(newData)
+            history.push('/profile') //To cause fast reload
+            history.push('/')
         })
         .catch(err => {
             console.log(err)
@@ -141,11 +145,15 @@ export default function Home() {
                 url
             })
         }).then(res=>res.json())
-        .then(data => {
-            if(data.error){
+        .then(result => {
+            if(result.error){
                 M.toast({html: "Post could not be shared", classes:"#c62828 red darken-3 font-weight-bold "})
             }else{
-            M.toast({html: 'Post shared Successfully', classes:"#00c853 green accent-4 font-weight-bold"})
+                var newData = data
+                newData.push(result.post)
+                setData(newData)
+                M.toast({html: 'Post shared Successfully', classes:"#00c853 green accent-4 font-weight-bold"})
+                history.push('/')
         }
         })
         .catch(err => console.log(err));
@@ -166,7 +174,7 @@ export default function Home() {
             return(
                 <div key={index} className="card home-card">
                     <h5 className="mt-3 ml-2">
-                            <Link to={post.postedBy._id !== state._id ? "/profile/" + post.postedBy._id : "/profile"}> 
+                            <Link to={post.postedBy._id !== JSON.parse(localStorage.getItem("user"))._id ? "/profile/" + post.postedBy._id : "/profile"}> 
                                 <img 
                                 src={post.postedBy.profilePic} 
                                 style={{width:"50px", height:"50px",borderRadius:"30px"}}
@@ -175,7 +183,7 @@ export default function Home() {
 
                                 @{post.postedBy.username} 
                             </Link>
-                        {(post.postedBy._id===state._id)?
+                        {(post.postedBy._id===JSON.parse(localStorage.getItem("user"))._id)?
                         <MdDeleteForever 
                         style={{fontSize:"1.5em",color:"black",float:"right"}} 
                         className="mr-2"
@@ -183,7 +191,10 @@ export default function Home() {
                         deletepost(post._id)
                         }/> : 
                         ""
-                        } </h5>
+                        } 
+                        
+                    </h5>
+                    
                     
                     <div className="card image mx-3" style={{maxHeight:"350px"}}>
                     

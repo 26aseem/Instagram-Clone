@@ -30,7 +30,8 @@ router.post('/createpost', requireLogin, (req,res)=> {
 
     post.save().then(result => {
         return res.json({
-            message: "Posted Created successfully"
+            message: "Posted Created successfully",
+            post: result
         })
     })
     .catch(err => {
