@@ -156,7 +156,13 @@ export default function Home() {
 
     return (
     <div className="home">
-      {  data.map((post, index) =>{
+      {  data.length===0 ?  
+        <div className="center mt-5" style={{fontFamily: "'Special Elite', cursive"}}>
+        <img src="https://res.cloudinary.com/dsjv29fpt/image/upload/v1587791096/rush-7_tfjeuy.png" alt="" style={{maxWidth:"400px",maxHeight:"400px"}}/>
+        <h2 className="text-danger">Oops! No Post found</h2>
+        <h3 className="text-success">Follow your friends to see more Posts</h3>
+        </div>
+      : data.map((post, index) =>{
             return(
                 <div key={index} className="card home-card">
                     <h5 className="mt-3 ml-2">
@@ -179,12 +185,13 @@ export default function Home() {
                         ""
                         } </h5>
                     
-                    <div className="card image mx-3" style={{height:"350px"}}>
+                    <div className="card image mx-3" style={{maxHeight:"350px"}}>
                     
                         <img 
                         src={post.photo} 
                         alt="Post"
                         title={post.title}
+                        style={{maxHeight:"350px"}}
                         />
                     
                     </div>
