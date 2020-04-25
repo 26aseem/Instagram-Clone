@@ -6,6 +6,9 @@ import {UserContext} from "../App"
 import M from "materialize-css"
 import { MdDeleteForever } from "react-icons/md"
 import { FaShare } from "react-icons/fa"
+import UIfx from "uifx"
+import share from "../sound/share.mp3"
+import like from "../sound/like.mp3"
 import {API} from "../backend"
 
 export default function Home() {
@@ -13,6 +16,22 @@ export default function Home() {
     const [data, setData] = useState([])
     const [comt,setComt] = useState("")
     const {state, dispatch} = useContext(UserContext)
+    const shareMusic = new UIfx(
+        share,
+        {
+          volume: 1.0, // number between 0.0 ~ 1.0
+          throttleMs: 100
+        }
+      )
+
+      const likeMusic = new UIfx(
+        like,
+        {
+          volume: 1.0, // number between 0.0 ~ 1.0
+          throttleMs: 100
+        }
+      )
+
     
     useEffect(()=>{
         fetch(`${API}/allpost`, {
@@ -213,11 +232,22 @@ export default function Home() {
                         }
 
                         {post.likes.includes(state._id) ?
-                        <AiFillDislike style={{fontSize:"1.5em"}} className="mr-2 mb-3" onClick={()=>unlikePost(post._id)}/> :
-                        <AiFillLike style={{fontSize:"1.5em"}} className="mr-2 mb-3" onClick={()=>likePost(post._id)}/>
+                        <AiFillDislike style={{fontSize:"1.5em"}} className="mr-2 mb-3" onClick={()=>{
+                            unlikePost(post._id) 
+                            likeMusic.play()
+                        }}/> :
+                        <AiFillLike style={{fontSize:"1.5em"}} className="mr-2 mb-3" onClick={()=>{
+                            likePost(post._id) 
+                            likeMusic.play()
+                        }}/>
                         }
 
-                        <FaShare style={{fontSize:"1.5em"}} className="mr-1 mb-3 right" onClick={()=>sharePost(post.title,post.body,post.photo)}/>
+                        <FaShare style={{fontSize:"1.5em"}} className="mr-1 mb-3 right" 
+                        onClick={()=>{
+                            sharePost(post.title,post.body,post.photo)
+                            shareMusic.play()
+                        }
+                        }/>
 
                         <h6> {post.likes.length} {post.likes.length>1 ?"Likes":"Like"} </h6>
                         <h6 className="font-weight-bold"> {post.title} </h6>
