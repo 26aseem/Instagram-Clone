@@ -71,3 +71,28 @@ a {
   color:white;
   
 }
+
+@media only screen and (max-width: 750px) {
+  #toast-container{
+    top: 45px !important;
+    right:0px !important;
+    left: 170px !important;
+  }
+}
+
+@media only screen and (max-width: 650px) {
+  #toast-container{
+    top: 45px !important;
+    right:0px !important;
+    left: 125px !important;
+  }
+}
+
+@media only screen and (max-width: 550px) {
+  #toast-container{
+    top: 45px !important;
+    right:0px !important;
+    left: 50px !important;
+  }
+  
+}
